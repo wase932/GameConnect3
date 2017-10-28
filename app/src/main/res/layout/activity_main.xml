@@ -6,20 +6,84 @@
     android:layout_height="match_parent"
     tools:context="com.example.toluwase.gameconnect3.MainActivity">
 
-    <RelativeLayout
+    <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/board"
-        android:id="@+id/gameBoard">
+        android:columnCount="2"
+        >
 
-        <ImageView
-            android:layout_width="126dp"
-            android:layout_height="164dp"
-            android:padding="0dp"
-            android:id="@+id/red"
-            android:src="@drawable/red"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:gravity="center"
+            android:layout_gravity="fill_horizontal"
+            android:background="@color/colorAccent"
+            android:id="@+id/One"
+            android:text="Tile1" />
 
-    </RelativeLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:gravity="center"
+            android:layout_gravity="fill_horizontal"
+            android:background="@color/colorPrimaryDark"
+            android:id="@+id/Two"
+            android:text="Tile2" />
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_rowWeight="1"
+            android:layout_columnWeight="1"
+            android:gravity="center"
+            android:layout_gravity="fill_horizontal"
+            android:background="@color/colorPrimary"
+            android:id="@+id/Three"
+            android:text="Tile3" />
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:gravity="center"
+            android:layout_gravity="fill_horizontal"
+            android:background="@color/colorAccent"
+            android:id="@+id/Four"
+            android:text="Tile4" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:gravity="center"
+            android:layout_gravity="fill_horizontal"
+            android:background="@color/colorAccent"
+            android:id="@+id/Five"
+            android:text="Tile5" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:gravity="center"
+            android:layout_gravity="fill_horizontal"
+            android:background="@color/colorPrimary"
+            android:id="@+id/Six"
+            android:text="Tile6" />
+
+    </GridLayout>
+
+            <!--<ImageView-->
+                <!--android:layout_width="126dp"-->
+                <!--android:layout_height="164dp"-->
+                <!--android:padding="0dp"-->
+                <!--android:id="@+id/red"-->
+                <!--android:src="@drawable/red"/>-->
 </android.support.constraint.ConstraintLayout>
