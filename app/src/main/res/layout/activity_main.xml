@@ -9,7 +9,9 @@
     <GridLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:columnCount="2"
+        android:columnCount="3"
+        android:rowCount="3"
+        android:id="@+id/gameBoard"
         >
 
         <TextView
@@ -19,7 +21,7 @@
             android:layout_rowWeight="1"
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
-            android:background="@color/colorAccent"
+            android:background="@color/colorGray"
             android:id="@+id/One"
             android:text="Tile1" />
 
@@ -30,7 +32,7 @@
             android:layout_rowWeight="1"
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
-            android:background="@color/colorPrimaryDark"
+            android:background="@color/colorWhite"
             android:id="@+id/Two"
             android:text="Tile2" />
 
@@ -41,7 +43,7 @@
             android:layout_columnWeight="1"
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorGray"
             android:id="@+id/Three"
             android:text="Tile3" />
 
@@ -52,7 +54,7 @@
             android:layout_rowWeight="1"
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
-            android:background="@color/colorAccent"
+            android:background="@color/colorWhite"
             android:id="@+id/Four"
             android:text="Tile4" />
 
@@ -63,7 +65,7 @@
             android:layout_rowWeight="1"
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
-            android:background="@color/colorAccent"
+            android:background="@color/colorGray"
             android:id="@+id/Five"
             android:text="Tile5" />
 
@@ -74,16 +76,48 @@
             android:layout_rowWeight="1"
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorWhite"
             android:id="@+id/Six"
             android:text="Tile6" />
 
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:gravity="center"
+            android:layout_gravity="fill_horizontal"
+            android:background="@color/colorGray"
+            android:id="@+id/Seven"
+            android:text="Tile7" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:gravity="center"
+            android:layout_gravity="fill_horizontal"
+            android:background="@color/colorWhite"
+            android:id="@+id/Eight"
+            android:text="Tile8" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="100dp"
+            android:layout_columnWeight="1"
+            android:layout_rowWeight="1"
+            android:gravity="center"
+            android:layout_gravity="fill_horizontal"
+            android:background="@color/colorGray"
+            android:id="@+id/Nine"
+            android:text="Tile9" />
     </GridLayout>
 
-            <!--<ImageView-->
-                <!--android:layout_width="126dp"-->
-                <!--android:layout_height="164dp"-->
-                <!--android:padding="0dp"-->
-                <!--android:id="@+id/red"-->
-                <!--android:src="@drawable/red"/>-->
+        <ImageView
+            android:layout_width="126dp"
+            android:layout_height="164dp"
+            android:padding="0dp"
+            android:id="@+id/red"
+            android:src="@drawable/red"/>
 </android.support.constraint.ConstraintLayout>
