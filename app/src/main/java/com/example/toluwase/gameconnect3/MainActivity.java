@@ -61,7 +61,9 @@ public class MainActivity extends AppCompatActivity {
                         Log.i("onTouchListener", "onTouch: " + " A touch has happened at: " + ev.getX() + ", " + ev.getY());;
                         touchCoord[0] = ev.getX();
                         touchCoord[1] = ev.getY();
-                        determineClosestCoordinates();
+                        float[] fakeDest = new float[] {0.0f, 210.0f};
+                        float[] Destination = determineClosestCoordinates();
+                        moveObjectToCoordinates(findViewById(R.id.red), Destination);
                         return true;
                     }
                 }
@@ -74,8 +76,8 @@ public class MainActivity extends AppCompatActivity {
         return Math.hypot(object1[0]-object2[0], object1[1]-object2[1]);
     }
 
-    protected void determineClosestCoordinates() {
-        float [] closestCoordinates;
+    protected float [] determineClosestCoordinates() {
+        float [] closestCoordinates = new float[]{};
         double smallestDistance = Double.MAX_VALUE;
         double currentDistance;
         for (float[] i : allViewCoords)
@@ -87,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("SelectedCoordinate", "NewCoordinates: " + closestCoordinates[0] + ", " + closestCoordinates[1]);
             }
         }
+        return closestCoordinates;
     }
 
         protected void outputArrayValues (){
@@ -95,6 +98,15 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("ALLVIEWCOORDS", "index: " + "x: " + i[0] + " y: " + i[1]);
 
             }
+        }
+
+        protected void moveObjectToCoordinates(View object, float[] Destination) {
+            View square = findViewById(R.id.One);
+            float moveToX = Destination[0];// - (square.getWidth()/2);
+            float moveToY = Destination[1] - (square.getWidth()/2);
+            object.animate().translationX(moveToX).setDuration(1000).start();
+            object.animate().translationY(moveToY).setDuration(1000).start();
+            //TODO: Bug in Fetching Coordinates. Need to send the coordinates at 1/2
         }
     }
 
