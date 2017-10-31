@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                         view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                         int[] locations = new int[2];
                         view.getLocationOnScreen(locations);
-                        allViewCoords.add(new float [] {locations[0], locations[1]});
+                        allViewCoords.add(new float [] {locations[0], locations[1] - view.getWidth()/2});
                         Log.i("getViewPositions", "currentSquareCoord: " + locations[0] +";"+ locations[1]);
                     }       
                 }
@@ -58,12 +58,13 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnTouchListener(){
                     @Override
                     public boolean onTouch(View v, MotionEvent ev) {
-                        Log.i("onTouchListener", "onTouch: " + " A touch has happened at: " + ev.getX() + ", " + ev.getY());;
-                        touchCoord[0] = ev.getX();
-                        touchCoord[1] = ev.getY();
-                        float[] fakeDest = new float[] {0.0f, 210.0f};
+                        Log.i("onTouchListener", "onTouch: " + " A touch has happened at: " + ev.getX() + ", " + ev.getY());
+                        View dart = findViewById(R.id.red);
+                        touchCoord[0] = ev.getX() - dart.getWidth()/2;
+                        touchCoord[1] = ev.getY() - dart.getHeight()/2;
+                        // float[] fakeDest = new float[] {0.0f, 210.0f};
                         float[] Destination = determineClosestCoordinates();
-                        moveObjectToCoordinates(findViewById(R.id.red), Destination);
+                        moveObjectToCoordinates(dart, Destination);
                         return true;
                     }
                 }
@@ -102,11 +103,10 @@ public class MainActivity extends AppCompatActivity {
 
         protected void moveObjectToCoordinates(View object, float[] Destination) {
             View square = findViewById(R.id.One);
-            float moveToX = Destination[0];// - (square.getWidth()/2);
-            float moveToY = Destination[1] - (square.getWidth()/2);
+            float moveToX = Destination[0];
+            float moveToY = Destination[1];
             object.animate().translationX(moveToX).setDuration(1000).start();
             object.animate().translationY(moveToY).setDuration(1000).start();
-            //TODO: Bug in Fetching Coordinates. Need to send the coordinates at 1/2
         }
     }
 
