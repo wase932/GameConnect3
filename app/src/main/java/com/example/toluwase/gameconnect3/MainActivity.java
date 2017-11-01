@@ -1,9 +1,11 @@
 package com.example.toluwase.gameconnect3;
 
 import android.os.*;
+import android.support.constraint.*;
 import android.support.v7.app.*;
 import android.util.*;
 import android.view.*;
+import android.widget.*;
 
 import java.util.*;
 
@@ -73,12 +75,14 @@ public class MainActivity extends AppCompatActivity {
                 new View.OnTouchListener(){
                     @Override
                     public boolean onTouch(View v, MotionEvent ev) {
+                        if(ev.getAction() == MotionEvent.ACTION_DOWN){
                         Log.i("onTouchListener", "onTouch: " + " A touch has happened at: " + ev.getX() + ", " + ev.getY());
                         View dart = findViewById(R.id.red);
                         TouchCoord[0] = ev.getX() - dart.getWidth()/2;
                         TouchCoord[1] = ev.getY() - dart.getHeight()/2;
                         float[] Destination = determineClosestCoordinates();
                         moveObjectToCoordinates(dart, Destination);
+                        }
                         return true;
                     }
                 }
@@ -110,7 +114,7 @@ public class MainActivity extends AppCompatActivity {
         // find the position of the coordinate in the list:
         if (IsFirstPlayer) {
             IsFirstPlayer = false;
-            AvailableSquares.remove(squarePosition);
+            AvailableSquares.remove(Integer.valueOf(squarePosition));
             PlayerOneSquares.add(squarePosition);
             Log.i("Play", "Player One Played Square: " + squarePosition );
             Log.i("Play", "Available Squares: " + AvailableSquares.size() );
@@ -118,7 +122,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             IsFirstPlayer = true;
-            AvailableSquares.remove(squarePosition);
+            AvailableSquares.remove(Integer.valueOf(squarePosition));
             PlayerTwoSquares.add(squarePosition);
             Log.i("Play", "Player Two Played Square: " + squarePosition );
             Log.i("Play", "Available Squares: " + AvailableSquares.size() );
@@ -134,12 +138,25 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        protected void moveObjectToCoordinates(View object, float[] Destination) {
-            View square = findViewById(R.id.One);
+        protected void moveObjectToCoordinates(View view, float[] Destination) {
+            ConstraintLayout gridLayout = findViewById(R.id.mainScreen);
+            ImageView newSquare = new ImageView(this);
+            newSquare.setAlpha(0f);
+            newSquare.setScaleX(8 * 0.1f);
+            newSquare.setScaleY(8 * 0.1f);
+            newSquare.setX(360.0f);
+            newSquare.setY(-360.0f);
+            newSquare.setImageResource( IsFirstPlayer? R.drawable.yellow : R.drawable.red);
+            gridLayout.addView(newSquare);
+
+
+
+            // View square = findViewById(R.id.One);
             float moveToX = Destination[0];
             float moveToY = Destination[1];
-            object.animate().translationX(moveToX).setDuration(1000).start();
-            object.animate().translationY(moveToY).setDuration(1000).start();
+            newSquare.animate().alphaBy(1f).setDuration(1000).start();
+            newSquare.animate().translationX(moveToX).setDuration(1000).start();
+            newSquare.animate().translationY(moveToY).setDuration(1000).start();
         }
 
         protected void play() {
