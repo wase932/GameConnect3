@@ -14,8 +14,10 @@ public class MainActivity extends AppCompatActivity {
     private ArrayList<float[]> AllViewCoords = new ArrayList<>();
     private boolean IsFirstPlayer = true;
     private List<Integer> AvailableSquares = new ArrayList<>();
-    private List<Integer> PlayerOneSquares = new ArrayList<>();;
-    private List<Integer> PlayerTwoSquares = new ArrayList<>();;
+    private List<Integer> PlayerOneSquares = new ArrayList<>();
+    private List<Integer> PlayerTwoSquares = new ArrayList<>();
+    private List<int[]> AllGridPositions = new ArrayList<>();
+    // private GameResult Game = new GameResult();
 
 
     @Override
@@ -35,7 +37,18 @@ public class MainActivity extends AppCompatActivity {
         float x;
         float y;
         String[] squareNames = new String [] {"One", "Two", "Three", "Four", "Five", "Six","Seven", "Eight", "Nine"};
+        AllGridPositions.add(new int [] {0,0});
+        AllGridPositions.add(new int [] {0,1});
+        AllGridPositions.add(new int [] {0,2});
+        AllGridPositions.add(new int [] {1,0});
+        AllGridPositions.add(new int [] {1,1});
+        AllGridPositions.add(new int [] {1,2});
+        AllGridPositions.add(new int [] {2,0});
+        AllGridPositions.add(new int [] {2,1});
+        AllGridPositions.add(new int [] {2,2});
+
         int availableSquare = 0;
+
         for (String squareName : squareNames) {
               final View view = getViewByResourceName(squareName);
               getViewPosition(view);
@@ -77,11 +90,11 @@ public class MainActivity extends AppCompatActivity {
                     public boolean onTouch(View v, MotionEvent ev) {
                         if(ev.getAction() == MotionEvent.ACTION_DOWN){
                         Log.i("onTouchListener", "onTouch: " + " A touch has happened at: " + ev.getX() + ", " + ev.getY());
-                        View dart = findViewById(R.id.red);
-                        TouchCoord[0] = ev.getX() - dart.getWidth()/2;
-                        TouchCoord[1] = ev.getY() - dart.getHeight()/2;
+                        // View dart = findViewById(R.id.red);
+                        TouchCoord[0] = ev.getX();
+                        TouchCoord[1] = ev.getY();
                         float[] Destination = determineClosestCoordinates();
-                        moveObjectToCoordinates(dart, Destination);
+                        moveObjectToCoordinates(Destination);
                         }
                         return true;
                     }
@@ -100,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
         double smallestDistance = Double.MAX_VALUE;
         double currentDistance;
         int squarePosition = 0;
+        int x = AllGridPositions.get(squarePosition)[0];
+        int y = AllGridPositions.get(squarePosition)[1];
         for (float[] i : AllViewCoords)
         {
             currentDistance = measureDistance(TouchCoord,i);
@@ -114,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         // find the position of the coordinate in the list:
         if (IsFirstPlayer) {
             IsFirstPlayer = false;
+            GameResult.Move(x, y, GameResult.State.X);
             AvailableSquares.remove(Integer.valueOf(squarePosition));
             PlayerOneSquares.add(squarePosition);
             Log.i("Play", "Player One Played Square: " + squarePosition );
@@ -122,6 +138,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else {
             IsFirstPlayer = true;
+            GameResult.Move(x, y, GameResult.State.O);
             AvailableSquares.remove(Integer.valueOf(squarePosition));
             PlayerTwoSquares.add(squarePosition);
             Log.i("Play", "Player Two Played Square: " + squarePosition );
@@ -138,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        protected void moveObjectToCoordinates(View view, float[] Destination) {
+        protected void moveObjectToCoordinates(float[] Destination) {
             ConstraintLayout gridLayout = findViewById(R.id.mainScreen);
             ImageView newSquare = new ImageView(this);
             newSquare.setAlpha(0f);
