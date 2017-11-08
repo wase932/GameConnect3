@@ -23,6 +23,7 @@
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
             android:background="@color/colorGray"
+            android:onClick="getClickedView"
             android:id="@+id/One"
             android:text="Tile1" />
 
@@ -34,6 +35,7 @@
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
             android:background="@color/colorWhite"
+            android:onClick="getClickedView"
             android:id="@+id/Two"
             android:text="Tile2" />
 
@@ -45,6 +47,7 @@
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
             android:background="@color/colorGray"
+            android:onClick="getClickedView"
             android:id="@+id/Three"
             android:text="Tile3" />
 
@@ -56,6 +59,7 @@
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
             android:background="@color/colorWhite"
+            android:onClick="getClickedView"
             android:id="@+id/Four"
             android:text="Tile4" />
 
@@ -67,6 +71,7 @@
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
             android:background="@color/colorGray"
+            android:onClick="getClickedView"
             android:id="@+id/Five"
             android:text="Tile5" />
 
@@ -78,6 +83,7 @@
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
             android:background="@color/colorWhite"
+            android:onClick="getClickedView"
             android:id="@+id/Six"
             android:text="Tile6" />
 
@@ -89,6 +95,7 @@
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
             android:background="@color/colorGray"
+            android:onClick="getClickedView"
             android:id="@+id/Seven"
             android:text="Tile7" />
 
@@ -100,6 +107,7 @@
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
             android:background="@color/colorWhite"
+            android:onClick="getClickedView"
             android:id="@+id/Eight"
             android:text="Tile8" />
 
@@ -111,6 +119,7 @@
             android:gravity="center"
             android:layout_gravity="fill_horizontal"
             android:background="@color/colorGray"
+            android:onClick="getClickedView"
             android:id="@+id/Nine"
             android:text="Tile9" />
     </GridLayout>
