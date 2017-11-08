@@ -21,7 +21,45 @@ public class MainActivity extends AppCompatActivity {
 
     public void getClickedView(View view){
         Log.i("ClickedView", "view : " + view.getId());
-        onClick();
+        int [] location = new int [2];
+        view.getLocationInWindow(location);
+        int[] boardCoord = convertLocationToBoardCoord(location);
+
+        Log.i("ClickedView", "Location Is : " + location[0] +", " + location[1]);
+        Log.i("ClickedView", "boardLocation Is : " + boardCoord[0] +", " + boardCoord[1]);
+
+        //onClick();
+    }
+
+    private int[] convertLocationToBoardCoord(int[] location) {
+        if (location[0] == 0 && location[1] == 210){
+            return new int[] {0,0};
+        }
+        if (location[0] == 360 && location[1] == 210){
+            return new int[] {0,1};
+        }
+        if (location[0] == 720 && location[1] == 210){
+            return new int[] {0,2};
+        }
+        if (location[0] == 0 && location[1] == 738){
+            return new int[] {1,0};
+        }
+        if (location[0] == 360 && location[1] == 738){
+            return new int[] {1,1};
+        }
+        if (location[0] == 720 && location[1] == 738){
+            return new int[] {1,2};
+        }
+        if (location[0] == 0 && location[1] == 1266){
+            return new int[] {2,0};
+        }
+        if (location[0] == 360 && location[1] == 1266){
+            return new int[] {2,1};
+        }
+        if (location[0] == 720 && location[1] == 1266){
+            return new int[] {2,2};
+        }
+        return new int[] {10000,10000};
     }
 
     private int getResourceIdByName(String name) {
