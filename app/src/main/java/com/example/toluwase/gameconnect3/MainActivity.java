@@ -10,6 +10,8 @@ import android.widget.*;
 public class MainActivity extends AppCompatActivity {
     private float[] TouchCoord = new float[2];
     private boolean IsFirstPlayer = true;
+    Game game = new Game(3);
+
 
 
     @Override
@@ -27,6 +29,9 @@ public class MainActivity extends AppCompatActivity {
 
         Log.i("ClickedView", "Location Is : " + location[0] +", " + location[1]);
         Log.i("ClickedView", "boardLocation Is : " + boardCoord[0] +", " + boardCoord[1]);
+        //playGame
+        game.Move(boardCoord[0], boardCoord[1], IsFirstPlayer? Game.State.X : Game.State.O);
+
 
         //onClick();
     }
