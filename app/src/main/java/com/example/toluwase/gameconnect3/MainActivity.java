@@ -13,8 +13,6 @@ public class MainActivity extends AppCompatActivity {
     private boolean IsSquareClickable = true;
     Game game = new Game(3);
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,18 +28,10 @@ public class MainActivity extends AppCompatActivity {
             int animationDestinationX = location[0] - (view.getWidth() / 16); // 16: Magic number to position piece
             int animationDestinationY = location[1] - (view.getHeight() / 4);
             moveObjectToCoordinates(new int[]{animationDestinationX, animationDestinationY});
-
-
-//        view.setBackgroundResource(IsFirstPlayer? R.drawable.red: R.drawable.yellow);
-
             Log.i("ClickedView", "Location Is : " + location[0] + ", " + location[1]);
             Log.i("ClickedView", "boardLocation Is : " + boardCoord[0] + ", " + boardCoord[1]);
-
-            //playGame
             Game.State result = game.Move(boardCoord[0], boardCoord[1], IsFirstPlayer ? Game.State.X : Game.State.O);
-
             IsFirstPlayer = !IsFirstPlayer;
-
 
             if (result == Game.State.Blank) {
                 Toast.makeText(getApplicationContext(), "Draw!", Toast.LENGTH_LONG).show();
@@ -59,7 +49,6 @@ public class MainActivity extends AppCompatActivity {
                 displayAlert("Game Over", "Yellow Won!!! Would you like to play Again?", Game.State.O);
             }
         }
-
     }
 
     private int[] convertLocationToBoardCoord(int[] location) {
@@ -124,23 +113,17 @@ public class MainActivity extends AppCompatActivity {
                 .setMessage(message)
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //Restart the Activity
                         recreate();
                     }
                 })
                 .setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        //Hide the App
                         moveTaskToBack(true);
                     }
                 })
                 .setIcon( icon)
-
                 .show();
     }
 }
-
-
-
 
 
