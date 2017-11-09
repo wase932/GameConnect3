@@ -8,7 +8,6 @@ import android.view.*;
 import android.widget.*;
 
 public class MainActivity extends AppCompatActivity {
-    private float[] TouchCoord = new float[2];
     private boolean IsFirstPlayer = true;
     Game game = new Game(3);
 
@@ -18,7 +17,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        onScreenTouch(findViewById(R.id.gameBoard));
+        onScreenTouch();
     }
 
     public void getClickedView(View view){
@@ -26,11 +25,30 @@ public class MainActivity extends AppCompatActivity {
         int [] location = new int [2];
         view.getLocationInWindow(location);
         int[] boardCoord = convertLocationToBoardCoord(location);
+        int animationDestinationX = location[0] - (view.getWidth()/16); // 16: Magic number to position piece
+        int animationDestinationY = location[1] - (view.getHeight()/4);
+        moveObjectToCoordinates(new int[]{animationDestinationX, animationDestinationY});
+
+//        view.setBackgroundResource(IsFirstPlayer? R.drawable.red: R.drawable.yellow);
 
         Log.i("ClickedView", "Location Is : " + location[0] +", " + location[1]);
         Log.i("ClickedView", "boardLocation Is : " + boardCoord[0] +", " + boardCoord[1]);
+
         //playGame
-        game.Move(boardCoord[0], boardCoord[1], IsFirstPlayer? Game.State.X : Game.State.O);
+        Game.State result = game.Move(boardCoord[0], boardCoord[1], IsFirstPlayer ? Game.State.X : Game.State.O);
+
+        IsFirstPlayer = !IsFirstPlayer;
+
+        if(result == Game.State.Blank){
+            Toast.makeText(getApplicationContext(),"Draw!", Toast.LENGTH_LONG).show();
+        }
+        if(result == Game.State.X){
+            Toast.makeText(getApplicationContext(),"Red Wins!", Toast.LENGTH_LONG).show();
+        }
+        if(result == Game.State.O){
+            Toast.makeText(getApplicationContext(),"Yellow Wins!", Toast.LENGTH_LONG).show();
+        }
+
 
 
         //onClick();
@@ -67,12 +85,7 @@ public class MainActivity extends AppCompatActivity {
         return new int[] {10000,10000};
     }
 
-    private int getResourceIdByName(String name) {
-
-        return getResources().getIdentifier(name, "id", this.getPackageName());
-    }
-
-    protected void onScreenTouch(final View view ) {
+    protected void onScreenTouch() {
         findViewById(R.id.gameBoard).setOnTouchListener(
                 new View.OnTouchListener(){
                     @Override
@@ -88,18 +101,8 @@ public class MainActivity extends AppCompatActivity {
         );
 
     }
-    protected void onClick() {
-        GridLayout gameBoard = findViewById(R.id.gameBoard);
-        int columns = gameBoard.getColumnCount();
-        int rows = gameBoard.getRowCount();
-        View focusedChild = gameBoard.getFocusedChild();
-        //int text = gameBoard.indexOfChild(getClickedView(view));
 
-        //System.out.println("Focused Child: " + text);
-        //text.setBackground(getResources().getDrawable(R.drawable.red));
-        System.out.println("columns: " + columns + " ,rows: " + rows);
-    }
-    protected void moveObjectToCoordinates(float[] Destination) {
+    protected void moveObjectToCoordinates(int[] Destination) {
         ConstraintLayout gridLayout = findViewById(R.id.mainScreen);
         ImageView newSquare = new ImageView(this);
         newSquare.setAlpha(0f);
@@ -107,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
         newSquare.setScaleY(8 * 0.1f);
         newSquare.setX(360.0f);
         newSquare.setY(-360.0f);
-        newSquare.setImageResource( IsFirstPlayer? R.drawable.yellow : R.drawable.red);
+        newSquare.setImageResource( IsFirstPlayer? R.drawable.red : R.drawable.yellow);
         gridLayout.addView(newSquare);
         float moveToX = Destination[0];
         float moveToY = Destination[1];
