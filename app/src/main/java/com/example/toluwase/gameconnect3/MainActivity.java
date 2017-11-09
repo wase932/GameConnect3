@@ -1,5 +1,6 @@
 package com.example.toluwase.gameconnect3;
 
+import android.content.*;
 import android.os.*;
 import android.support.constraint.*;
 import android.support.v7.app.*;
@@ -9,6 +10,7 @@ import android.widget.*;
 
 public class MainActivity extends AppCompatActivity {
     private boolean IsFirstPlayer = true;
+    private boolean IsSquareClickable = true;
     Game game = new Game(3);
 
 
@@ -17,41 +19,47 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        onScreenTouch();
     }
 
     public void getClickedView(View view){
-        Log.i("ClickedView", "view : " + view.getId());
-        int [] location = new int [2];
-        view.getLocationInWindow(location);
-        int[] boardCoord = convertLocationToBoardCoord(location);
-        int animationDestinationX = location[0] - (view.getWidth()/16); // 16: Magic number to position piece
-        int animationDestinationY = location[1] - (view.getHeight()/4);
-        moveObjectToCoordinates(new int[]{animationDestinationX, animationDestinationY});
+        if(IsSquareClickable) {
+            Log.i("ClickedView", "view : " + view.getId());
+            int[] location = new int[2];
+            view.getLocationInWindow(location);
+            int[] boardCoord = convertLocationToBoardCoord(location);
+            int animationDestinationX = location[0] - (view.getWidth() / 16); // 16: Magic number to position piece
+            int animationDestinationY = location[1] - (view.getHeight() / 4);
+            moveObjectToCoordinates(new int[]{animationDestinationX, animationDestinationY});
+
 
 //        view.setBackgroundResource(IsFirstPlayer? R.drawable.red: R.drawable.yellow);
 
-        Log.i("ClickedView", "Location Is : " + location[0] +", " + location[1]);
-        Log.i("ClickedView", "boardLocation Is : " + boardCoord[0] +", " + boardCoord[1]);
+            Log.i("ClickedView", "Location Is : " + location[0] + ", " + location[1]);
+            Log.i("ClickedView", "boardLocation Is : " + boardCoord[0] + ", " + boardCoord[1]);
 
-        //playGame
-        Game.State result = game.Move(boardCoord[0], boardCoord[1], IsFirstPlayer ? Game.State.X : Game.State.O);
+            //playGame
+            Game.State result = game.Move(boardCoord[0], boardCoord[1], IsFirstPlayer ? Game.State.X : Game.State.O);
 
-        IsFirstPlayer = !IsFirstPlayer;
+            IsFirstPlayer = !IsFirstPlayer;
 
-        if(result == Game.State.Blank){
-            Toast.makeText(getApplicationContext(),"Draw!", Toast.LENGTH_LONG).show();
+
+            if (result == Game.State.Blank) {
+                Toast.makeText(getApplicationContext(), "Draw!", Toast.LENGTH_LONG).show();
+                IsSquareClickable = false;
+                displayAlert("Game Over", "Draw!!! Would you like to play Again?", Game.State.Blank);
+            }
+            if (result == Game.State.X) {
+                Toast.makeText(getApplicationContext(), "Red Wins!", Toast.LENGTH_LONG).show();
+                IsSquareClickable = false;
+                displayAlert("Game Over", "Red Won!!! Would you like to play Again?", Game.State.X);
+            }
+            if (result == Game.State.O) {
+                Toast.makeText(getApplicationContext(), "Yellow Wins!", Toast.LENGTH_LONG).show();
+                IsSquareClickable = false;
+                displayAlert("Game Over", "Yellow Won!!! Would you like to play Again?", Game.State.O);
+            }
         }
-        if(result == Game.State.X){
-            Toast.makeText(getApplicationContext(),"Red Wins!", Toast.LENGTH_LONG).show();
-        }
-        if(result == Game.State.O){
-            Toast.makeText(getApplicationContext(),"Yellow Wins!", Toast.LENGTH_LONG).show();
-        }
 
-
-
-        //onClick();
     }
 
     private int[] convertLocationToBoardCoord(int[] location) {
@@ -85,23 +93,6 @@ public class MainActivity extends AppCompatActivity {
         return new int[] {10000,10000};
     }
 
-    protected void onScreenTouch() {
-        findViewById(R.id.gameBoard).setOnTouchListener(
-                new View.OnTouchListener(){
-                    @Override
-                    public boolean onTouch(View v, MotionEvent ev) {
-                        if(ev.getAction() == MotionEvent.ACTION_DOWN){
-                            Log.i("onTouchListener", "onTouch: " + " A touch has happened at: " + ev.getX() + ", " + ev.getY());
-                            //onClick();
-
-                        }
-                        return true;
-                    }
-                }
-        );
-
-    }
-
     protected void moveObjectToCoordinates(int[] Destination) {
         ConstraintLayout gridLayout = findViewById(R.id.mainScreen);
         ImageView newSquare = new ImageView(this);
@@ -117,6 +108,35 @@ public class MainActivity extends AppCompatActivity {
         newSquare.animate().alphaBy(1f).setDuration(1000).start();
         newSquare.animate().translationX(moveToX).setDuration(1000).start();
         newSquare.animate().translationY(moveToY).setDuration(1000).start();
+    }
+
+    void displayAlert(String title, String message, Game.State winner) {
+        int icon = winner == Game.State.X? R.drawable.red : R.drawable.yellow;
+        if(winner == Game.State.Blank)
+            icon = 0;
+        AlertDialog.Builder builder;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder = new AlertDialog.Builder(this, android.R.style.Theme_Material_Dialog_Alert);
+        } else {
+            builder = new AlertDialog.Builder(this);
+        }
+        builder.setTitle(title)
+                .setMessage(message)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Restart the Activity
+                        recreate();
+                    }
+                })
+                .setNegativeButton(R.string.exit, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Hide the App
+                        moveTaskToBack(true);
+                    }
+                })
+                .setIcon( icon)
+
+                .show();
     }
 }
 
