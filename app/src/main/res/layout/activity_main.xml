@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/mainScreen"
-    tools:context="com.example.toluwase.gameconnect3.MainActivity">
+    tools:context="com.xlivix.toluwase.gameconnect3.MainActivity">
 
     <GridLayout
         android:layout_width="match_parent"
