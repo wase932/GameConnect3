@@ -24,30 +24,37 @@ public class MainActivity extends AppCompatActivity {
             Log.i("ClickedView", "view : " + view.getId());
             int[] location = new int[2];
             view.getLocationInWindow(location);
+            //Prevent view from being clicked again(disable play on same square)
+            view.setClickable(false);
             int[] boardCoord = convertLocationToBoardCoord(location);
             int animationDestinationX = location[0] - (view.getWidth() / 16); // 16: Magic number to position piece
             int animationDestinationY = location[1] - (view.getHeight() / 4);
             moveObjectToCoordinates(new int[]{animationDestinationX, animationDestinationY});
             Log.i("ClickedView", "Location Is : " + location[0] + ", " + location[1]);
             Log.i("ClickedView", "boardLocation Is : " + boardCoord[0] + ", " + boardCoord[1]);
-            Game.State result = game.Move(boardCoord[0], boardCoord[1], IsFirstPlayer ? Game.State.X : Game.State.O);
+            final Game.State result = game.Move(boardCoord[0], boardCoord[1], IsFirstPlayer ? Game.State.X : Game.State.O);
             IsFirstPlayer = !IsFirstPlayer;
-
-            if (result == Game.State.Blank) {
-                Toast.makeText(getApplicationContext(), "Draw!", Toast.LENGTH_LONG).show();
-                IsSquareClickable = false;
-                displayAlert("Game Over", "Draw!!! Would you like to play Again?", Game.State.Blank);
-            }
-            if (result == Game.State.X) {
-                Toast.makeText(getApplicationContext(), "Red Wins!", Toast.LENGTH_LONG).show();
-                IsSquareClickable = false;
-                displayAlert("Game Over", "Red Won!!! Would you like to play Again?", Game.State.X);
-            }
-            if (result == Game.State.O) {
-                Toast.makeText(getApplicationContext(), "Yellow Wins!", Toast.LENGTH_LONG).show();
-                IsSquareClickable = false;
-                displayAlert("Game Over", "Yellow Won!!! Would you like to play Again?", Game.State.O);
-            }
+            Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (result == Game.State.Blank) {
+                            Toast.makeText(getApplicationContext(), "Draw!", Toast.LENGTH_LONG).show();
+                            IsSquareClickable = false;
+                            displayAlert("Game Over", "Draw!!! Would you like to play Again?", Game.State.Blank);
+                        }
+                        if (result == Game.State.X) {
+                            Toast.makeText(getApplicationContext(), "Red Wins!", Toast.LENGTH_LONG).show();
+                            IsSquareClickable = false;
+                            displayAlert("Game Over", "Red Won!!! Would you like to play Again?", Game.State.X);
+                        }
+                        if (result == Game.State.O) {
+                            Toast.makeText(getApplicationContext(), "Yellow Wins!", Toast.LENGTH_LONG).show();
+                            IsSquareClickable = false;
+                            displayAlert("Game Over", "Yellow Won!!! Would you like to play Again?", Game.State.O);
+                        }
+                    }
+                },500);
         }
     }
 
